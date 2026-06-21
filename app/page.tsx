@@ -61,7 +61,7 @@ export default function Home() {
           </a>
         </header>
 
-        <section className="grid flex-1 items-stretch gap-8 py-10 lg:grid-cols-2 lg:py-14">
+        <section className="grid items-stretch gap-8 py-10 lg:grid-cols-2 lg:py-14">
           <div className="flex h-full max-w-2xl flex-col">
             <p className="mb-5 inline-flex self-start rounded-full border border-app-primary bg-category-reading-soft px-4 py-2 text-sm font-medium text-category-reading shadow-sm backdrop-blur">
               Sunday, June 21
