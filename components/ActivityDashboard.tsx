@@ -94,7 +94,7 @@ export function ActivityDashboard({
                   </p>
                 </div>
                 <p className="rounded-full bg-app-surface-soft px-4 py-2 text-sm font-semibold text-app-muted">
-                  {activity.time}
+                  {activity.date} · {activity.time}
                 </p>
               </div>
             </article>

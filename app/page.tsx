@@ -102,7 +102,7 @@ export default function Home() {
                           {activity.title}
                         </h3>
                         <p className="mt-1 text-sm text-app-muted">
-                          {activity.time} · {activity.category}
+                          {activity.date} · {activity.time} · {activity.category}
                         </p>
                       </div>
                     </div>

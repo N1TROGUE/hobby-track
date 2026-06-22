@@ -7,6 +7,7 @@ export type Activity = {
   id: string;
   title: string;
   category: ActivityCategory;
+  date: string;
   time: string;
   note: string;
   accent: string;
