@@ -1,9 +1,9 @@
 import type { Activity, ActivityCategory } from "@/types/activity";
 
 export const categories: ActivityCategory[] = [
-    "Movie Watching",
-    "Reading",
-    "Hanging Out With Friends",
+  "Movie Watching",
+  "Reading",
+  "Hanging Out With Friends",
 ];
 
 export const activities: Activity[] = [
