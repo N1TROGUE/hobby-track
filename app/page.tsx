@@ -1,33 +1,4 @@
-const categories = [
-  "All",
-  "Movie Watching",
-  "Reading",
-  "Hanging Out With Friends",
-];
-
-const activities = [
-  {
-    title: "Watch The Grand Budapest Hotel",
-    category: "Movie Watching",
-    time: "Tonight, 20:00",
-    note: "Pick snacks before starting.",
-    accent: "bg-category-movie",
-  },
-  {
-    title: "Read two chapters",
-    category: "Reading",
-    time: "Tomorrow, 09:30",
-    note: "Continue the current novel over coffee.",
-    accent: "bg-category-reading",
-  },
-  {
-    title: "Dinner with friends",
-    category: "Hanging Out With Friends",
-    time: "Friday, 18:45",
-    note: "Confirm the reservation in the afternoon.",
-    accent: "bg-category-friends",
-  },
-];
+import { activities, categories } from "@/lib/activities";
 
 export default function Home() {
   return (
@@ -119,7 +90,7 @@ export default function Home() {
                 {activities.map((activity) => (
                   <article
                     className="rounded-3xl border border-app-border bg-app-surface p-4 shadow-sm"
-                    key={activity.title}
+                    key={activity.id}
                   >
                     <div className="flex items-start gap-4">
                       <span
@@ -155,7 +126,7 @@ export default function Home() {
             </h2>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              {categories.map((category, index) => (
+              {["All", ...categories].map((category, index) => (
                 <button
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     index === 0
@@ -194,7 +165,7 @@ export default function Home() {
               {activities.map((activity) => (
                 <article
                   className="rounded-3xl border border-app-border bg-app-surface p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                  key={activity.title}
+                  key={activity.id}
                 >
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
