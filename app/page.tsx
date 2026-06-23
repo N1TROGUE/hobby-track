@@ -1,4 +1,4 @@
-import { ActivityDashboard } from "@/components/ActivityDashboard";
+import { ActivityDashboard } from "@/components/activity/ActivityDashboard";
 import { activities } from "@/lib/activities";
 import { categories, categoryDetails } from "@/lib/categories";
 
