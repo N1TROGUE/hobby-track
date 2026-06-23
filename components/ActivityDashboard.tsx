@@ -12,18 +12,6 @@ type ActivityDashboardProps = {
   categories: ActivityCategory[];
 };
 
-function getCategoryAccent(category: ActivityCategory) {
-  if (category === "Movie Watching") {
-    return "bg-category-movie";
-  }
-
-  if (category === "Reading") {
-    return "bg-category-reading";
-  }
-
-  return "bg-category-friends";
-}
-
 export function ActivityDashboard({
   activities,
   categories,
