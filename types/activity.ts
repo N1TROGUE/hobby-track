@@ -10,5 +10,4 @@ export type Activity = {
   date: string;
   time: string;
   note: string;
-  accent: string;
 };

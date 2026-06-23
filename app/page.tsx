@@ -1,5 +1,6 @@
 import { ActivityDashboard } from "@/components/ActivityDashboard";
-import { activities, categories } from "@/lib/activities";
+import { activities } from "@/lib/activities";
+import { categories, categoryDetails } from "@/lib/categories";
 
 export default function Home() {
   return (
@@ -95,7 +96,7 @@ export default function Home() {
                   >
                     <div className="flex items-start gap-4">
                       <span
-                        className={`mt-1 h-3 w-3 rounded-full ${activity.accent}`}
+                        className={`mt-1 h-3 w-3 rounded-full ${categoryDetails[activity.category].accentClass}`}
                       />
                       <div>
                         <h3 className="font-semibold tracking-tight">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import type { Activity, ActivityCategory } from "@/types/activity";
+import { categoryDetails } from "@/lib/categories";
 
 type ActivityFilter = "All" | ActivityCategory;
 
@@ -41,7 +42,6 @@ export function ActivityDashboard({
     const newActivity: Activity = {
       id: crypto.randomUUID(),
       ...formValues,
-      accent: getCategoryAccent(formValues.category),
     };
 
     setActivityItems((currentItems) => [newActivity, ...currentItems]);
@@ -115,7 +115,7 @@ export function ActivityDashboard({
                 <div>
                   <div className="flex items-center gap-3">
                     <span
-                      className={`h-3 w-3 rounded-full ${activity.accent}`}
+                      className={`h-3 w-3 rounded-full ${categoryDetails[activity.category].accentClass}`}
                     />
                     <p className="text-sm font-semibold text-app-muted">
                       {activity.category}
