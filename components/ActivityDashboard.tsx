@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
+import { ActivityDetailModal } from "./ActivityDetailModal";
 import type { Activity, ActivityCategory } from "@/types/activity";
 import { categoryDetails } from "@/lib/categories";
 
@@ -20,6 +21,7 @@ export function ActivityDashboard({
     
   const [activityItems, setActivityItems] = useState<Activity[]>(activities);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
 
   const visibleActivities =
     selectedCategory === "All"
@@ -95,9 +97,11 @@ export function ActivityDashboard({
 
         <div className="mt-5 grid gap-3">
           {visibleActivities.map((activity) => (
-            <article
-              className="rounded-3xl border border-app-border bg-app-surface p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            <button
+              className="rounded-3xl border border-app-border bg-app-surface p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               key={activity.id}
+              onClick={() => setSelectedActivity(activity)}
+              type="button"
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -120,10 +124,17 @@ export function ActivityDashboard({
                   {activity.date} · {activity.time}
                 </p>
               </div>
-            </article>
+            </button>
           ))}
         </div>
       </section>
+
+      {selectedActivity && (
+        <ActivityDetailModal
+          activity={selectedActivity}
+          onClose={() => setSelectedActivity(null)}
+        />
+      )}
     </section>
   );
 }
