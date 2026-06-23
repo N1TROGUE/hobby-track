@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import type { Activity, ActivityCategory } from "@/types/activity";
 
 type ActivityFilter = "All" | ActivityCategory;
@@ -10,17 +11,43 @@ type ActivityDashboardProps = {
   categories: ActivityCategory[];
 };
 
+function getCategoryAccent(category: ActivityCategory) {
+  if (category === "Movie Watching") {
+    return "bg-category-movie";
+  }
+
+  if (category === "Reading") {
+    return "bg-category-reading";
+  }
+
+  return "bg-category-friends";
+}
+
 export function ActivityDashboard({
   activities,
   categories,
 }: Readonly<ActivityDashboardProps>) {
-  const [selectedCategory, setSelectedCategory] =
-    useState<ActivityFilter>("All");
+  const [selectedCategory, setSelectedCategory] = useState<ActivityFilter>("All");
+    
+  const [activityItems, setActivityItems] = useState<Activity[]>(activities);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const visibleActivities =
     selectedCategory === "All"
-      ? activities
-      : activities.filter((activity) => activity.category === selectedCategory);
+      ? activityItems
+      : activityItems.filter((activity) => activity.category === selectedCategory);
+
+  function handleAddActivity(formValues: ActivityFormValues) {
+    const newActivity: Activity = {
+      id: crypto.randomUUID(),
+      ...formValues,
+      accent: getCategoryAccent(formValues.category),
+    };
+
+    setActivityItems((currentItems) => [newActivity, ...currentItems]);
+    setSelectedCategory("All");
+    setIsFormOpen(false);
+  }
 
   return (
     <section className="grid gap-6 pb-10 lg:grid-cols-3" id="agenda">
@@ -64,11 +91,19 @@ export function ActivityDashboard({
           <button
             className="h-11 rounded-full border border-app-primary bg-app-primary px-5 text-sm font-semibold text-app-background shadow-sm transition hover:bg-app-primary-hover"
             id="add-activity"
+            onClick={() => setIsFormOpen((currentValue) => !currentValue)}
             type="button"
           >
-            New activity
+            {isFormOpen ? "Close form" : "New activity"}
           </button>
         </div>
+
+        {isFormOpen && (
+          <ActivityForm
+            categories={categories}
+            onSubmit={handleAddActivity}
+          />
+        )}
 
         <div className="mt-5 grid gap-3">
           {visibleActivities.map((activity) => (
