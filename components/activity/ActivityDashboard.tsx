@@ -39,6 +39,13 @@ export function ActivityDashboard({
     setIsFormOpen(false);
   }
 
+  function handleDeleteActivity(activityId: string) {
+    setActivityItems((currentItems) =>
+      currentItems.filter((activity) => activity.id !== activityId),
+    );
+    setSelectedActivity(null);
+  }
+
   return (
     <section className="grid gap-6 pb-10 lg:grid-cols-3" id="agenda">
       <aside
@@ -133,6 +140,7 @@ export function ActivityDashboard({
         <ActivityDetailModal
           activity={selectedActivity}
           onClose={() => setSelectedActivity(null)}
+          onDelete={() => handleDeleteActivity(selectedActivity.id)}
         />
       )}
     </section>

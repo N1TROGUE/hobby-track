@@ -6,11 +6,13 @@ import { categoryDetails } from "@/lib/categories";
 type ActivityDetailModalProps = {
   activity: Activity;
   onClose: () => void;
+  onDelete: () => void;
 };
 
 export function ActivityDetailModal({
   activity,
   onClose,
+  onDelete,
 }: Readonly<ActivityDetailModalProps>) {
   return (
     <div className="fixed inset-0 z-20 flex items-end bg-black/60 px-5 py-6 backdrop-blur-sm sm:items-center sm:justify-center">
@@ -64,6 +66,16 @@ export function ActivityDetailModal({
           <p className="mt-2 leading-6 text-app-text">
             {activity.note || "No notes added."}
           </p>
+        </div>
+
+        <div className="mt-5 flex justify-end">
+          <button
+            className="rounded-full border border-category-friends bg-transparent px-4 py-2 text-sm font-semibold text-category-friends transition hover:bg-category-friends hover:text-app-text"
+            onClick={onDelete}
+            type="button"
+          >
+            Delete activity
+          </button>
         </div>
       </section>
     </div>
