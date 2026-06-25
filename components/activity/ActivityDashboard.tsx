@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import { ActivityDetailModal } from "./ActivityDetailModal";
 import type { Activity, ActivityCategory } from "@/types/activity";
@@ -8,7 +8,6 @@ import { categoryDetails } from "@/lib/categories/categoryData";
 import {
   createActivityRequest,
   deleteActivityRequest,
-  fetchActivities,
 } from "@/lib/api/activityClient";
 
 type ActivityFilter = "All" | ActivityCategory;
@@ -27,7 +26,6 @@ export function ActivityDashboard({
   const [activityItems, setActivityItems] = useState<Activity[]>(activities);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const visibleActivities =
@@ -123,12 +121,6 @@ export function ActivityDashboard({
         {errorMessage && (
           <p className="mt-5 rounded-2xl border border-category-friends bg-app-background p-4 text-sm font-medium text-category-friends">
             {errorMessage}
-          </p>
-        )}
-
-        {isLoading && (
-          <p className="mt-5 rounded-2xl border border-app-border bg-app-background p-4 text-sm font-medium text-app-muted">
-            Loading activities...
           </p>
         )}
 

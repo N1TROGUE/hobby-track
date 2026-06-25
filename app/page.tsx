@@ -1,8 +1,10 @@
 import { ActivityDashboard } from "@/components/activity/ActivityDashboard";
-import { activities } from "@/lib/activities/activityData";
+import { getActivities } from "@/lib/activities/activityRepository";
 import { categories, categoryDetails } from "@/lib/categories/categoryData";
 
 export default function Home() {
+  const activities = getActivities();
+  
   return (
     <main className="min-h-screen bg-app-background text-app-text">
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-6 sm:px-8 lg:px-10">
