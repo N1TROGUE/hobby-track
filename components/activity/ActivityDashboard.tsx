@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import { ActivityDetailModal } from "./ActivityDetailModal";
 import type { Activity, ActivityCategory } from "@/types/activity";
 import { categoryDetails } from "@/lib/categories/categoryData";
+import {
+  createActivityRequest,
+  deleteActivityRequest,
+  fetchActivities,
+} from "@/lib/api/activityClient";
 
 type ActivityFilter = "All" | ActivityCategory;
 
@@ -22,28 +27,44 @@ export function ActivityDashboard({
   const [activityItems, setActivityItems] = useState<Activity[]>(activities);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const visibleActivities =
     selectedCategory === "All"
       ? activityItems
       : activityItems.filter((activity) => activity.category === selectedCategory);
 
-  function handleAddActivity(formValues: ActivityFormValues) {
+  async function handleAddActivity(formValues: ActivityFormValues) {
     const newActivity: Activity = {
       id: crypto.randomUUID(),
       ...formValues,
     };
 
-    setActivityItems((currentItems) => [newActivity, ...currentItems]);
-    setSelectedCategory("All");
-    setIsFormOpen(false);
+    try {
+      const createdActivity = await createActivityRequest(newActivity);
+
+      setActivityItems((currentItems) => [createdActivity, ...currentItems]);
+      setSelectedCategory("All");
+      setIsFormOpen(false);
+      setErrorMessage(null);
+    } catch {
+      setErrorMessage("Could not add activity.");
+    }
   }
 
-  function handleDeleteActivity(activityId: string) {
-    setActivityItems((currentItems) =>
-      currentItems.filter((activity) => activity.id !== activityId),
-    );
-    setSelectedActivity(null);
+  async function handleDeleteActivity(activityId: string) {
+    try {
+      await deleteActivityRequest(activityId);
+
+      setActivityItems((currentItems) =>
+        currentItems.filter((activity) => activity.id !== activityId),
+      );
+      setSelectedActivity(null);
+      setErrorMessage(null);
+    } catch {
+      setErrorMessage("Could not delete activity.");
+    }
   }
 
   return (
@@ -96,10 +117,19 @@ export function ActivityDashboard({
         </div>
 
         {isFormOpen && (
-          <ActivityForm
-            categories={categories}
-            onSubmit={handleAddActivity}
-          />
+          <ActivityForm categories={categories} onSubmit={handleAddActivity} />
+        )}
+
+        {errorMessage && (
+          <p className="mt-5 rounded-2xl border border-category-friends bg-app-background p-4 text-sm font-medium text-category-friends">
+            {errorMessage}
+          </p>
+        )}
+
+        {isLoading && (
+          <p className="mt-5 rounded-2xl border border-app-border bg-app-background p-4 text-sm font-medium text-app-muted">
+            Loading activities...
+          </p>
         )}
 
         <div className="mt-5 grid gap-3">
