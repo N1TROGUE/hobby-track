@@ -1,6 +1,6 @@
 import { ActivityDashboard } from "@/components/activity/ActivityDashboard";
-import { activities } from "@/lib/activities";
-import { categories, categoryDetails } from "@/lib/categories";
+import { activities } from "@/lib/activities/activityData";
+import { categories, categoryDetails } from "@/lib/categories/categoryData";
 
 export default function Home() {
   return (

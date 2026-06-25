@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import { ActivityDetailModal } from "./ActivityDetailModal";
 import type { Activity, ActivityCategory } from "@/types/activity";
-import { categoryDetails } from "@/lib/categories";
+import { categoryDetails } from "@/lib/categories/categoryData";
 
 type ActivityFilter = "All" | ActivityCategory;
 

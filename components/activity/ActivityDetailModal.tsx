@@ -1,7 +1,7 @@
 "use client";
 
 import type { Activity } from "@/types/activity";
-import { categoryDetails } from "@/lib/categories";
+import { categoryDetails } from "@/lib/categories/categoryData";
 
 type ActivityDetailModalProps = {
   activity: Activity;
