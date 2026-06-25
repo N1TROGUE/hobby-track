@@ -1,6 +1,6 @@
 import { ActivityDashboard } from "@/components/activity/ActivityDashboard";
 import { getActivities } from "@/lib/activities/activityRepository";
-import { categories, categoryDetails } from "@/lib/categories/categoryData";
+import { categories } from "@/lib/categories/categoryData";
 
 export default function Home() {
   const activities = getActivities();
@@ -35,86 +35,6 @@ export default function Home() {
             Add activity
           </a>
         </header>
-
-        <section className="grid items-stretch gap-8 py-10 lg:grid-cols-2 lg:py-14">
-          <div className="flex h-full max-w-2xl flex-col">
-            <p className="mb-5 inline-flex self-start rounded-full border border-app-primary bg-category-reading-soft px-4 py-2 text-sm font-medium text-category-reading shadow-sm backdrop-blur">
-              Sunday, June 21
-            </p>
-
-            <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
-              Your <span className="text-category-reading">hobby</span> agenda
-            </h1>
-
-            <p className="mt-6 max-w-xl text-lg leading-8 text-app-muted">
-              Three activities are planned this week across movies, reading,
-              and time with friends.
-            </p>
-
-            <div className="mt-auto grid gap-3 pt-8 sm:grid-cols-3">
-              <div className="rounded-3xl border border-app-glass-border bg-app-surface-glass p-4 shadow-sm backdrop-blur">
-                <p className="text-3xl font-semibold tracking-tight">3</p>
-                <p className="mt-1 text-sm font-medium text-app-muted">
-                  planned
-                </p>
-              </div>
-              <div className="rounded-3xl border border-app-glass-border bg-app-surface-glass p-4 shadow-sm backdrop-blur">
-                <p className="text-3xl font-semibold tracking-tight">2</p>
-                <p className="mt-1 text-sm font-medium text-app-muted">
-                  days active
-                </p>
-              </div>
-              <div className="rounded-3xl border border-app-glass-border bg-app-surface-glass p-4 shadow-sm backdrop-blur">
-                <p className="text-3xl font-semibold tracking-tight">3</p>
-                <p className="mt-1 text-sm font-medium text-app-muted">
-                  categories
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <section
-            aria-label="This week summary"
-            className="rounded-3xl border border-app-primary bg-category-reading-soft p-4 shadow-xl backdrop-blur-xl sm:p-5"
-          >
-            <div className="rounded-2xl bg-app-surface p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-app-muted">This week</p>
-                  <h2 className="mt-1 text-2xl font-semibold tracking-tight">
-                    3 planned activities
-                  </h2>
-                </div>
-                <span className="rounded-full bg-category-reading-soft px-3 py-1 text-sm font-semibold text-category-reading">
-                  Balanced
-                </span>
-              </div>
-
-              <div className="mt-6 space-y-3">
-                {activities.map((activity) => (
-                  <article
-                    className="rounded-3xl border border-app-border bg-app-surface p-4 shadow-sm"
-                    key={activity.id}
-                  >
-                    <div className="flex items-start gap-4">
-                      <span
-                        className={`mt-1 h-3 w-3 rounded-full ${categoryDetails[activity.category].accentClass}`}
-                      />
-                      <div>
-                        <h3 className="font-semibold tracking-tight">
-                          {activity.title}
-                        </h3>
-                        <p className="mt-1 text-sm text-app-muted">
-                          {activity.date} · {activity.time} · {activity.category}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-        </section>
         <ActivityDashboard activities={activities} categories={categories} />
       </div>
     </main>
