@@ -1,4 +1,4 @@
-import { createActivity,getActivities } from "@/lib/activities/activityRepository";
+import { createActivity, getActivities } from "@/lib/activities/activityRepository";
 import type { Activity } from "@/types/activity";
 
 export async function GET() {
