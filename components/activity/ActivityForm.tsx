@@ -15,7 +15,9 @@ type ActivityFormErrors = Partial<Record<keyof ActivityFormValues, string>>;
 
 type ActivityFormProps = {
   categories: ActivityCategory[];
+  initialValues?: ActivityFormValues;
   onSubmit: (values: ActivityFormValues) => void;
+  submitLabel?: string;
 };
 
 const initialFormValues = (category: ActivityCategory): ActivityFormValues => ({
@@ -26,9 +28,16 @@ const initialFormValues = (category: ActivityCategory): ActivityFormValues => ({
   note: "",
 });
 
-export function ActivityForm({ categories, onSubmit }: Readonly<ActivityFormProps>) {
+export function ActivityForm({ 
+  categories,
+  initialValues, 
+  onSubmit,
+  submitLabel = "Add activity",
+}: Readonly<ActivityFormProps>) {
   
-  const [values, setValues] = useState<ActivityFormValues>(() => initialFormValues(categories[0]));
+  const [values, setValues] = useState<ActivityFormValues>(
+    () => initialValues ?? initialFormValues(categories[0])
+  );
   
   const [errors, setErrors] = useState<ActivityFormErrors>({});
 
@@ -82,7 +91,10 @@ export function ActivityForm({ categories, onSubmit }: Readonly<ActivityFormProp
       note: values.note.trim(),
     });
 
-    setValues(initialFormValues(categories[0]));
+    if (!initialValues) {
+      setValues(initialFormValues(categories[0]));
+    }
+
     setErrors({});
   }
 
@@ -176,7 +188,7 @@ export function ActivityForm({ categories, onSubmit }: Readonly<ActivityFormProp
           className="h-11 rounded-full bg-app-primary px-5 text-sm font-semibold text-app-background shadow-sm transition hover:bg-app-primary-hover"
           type="submit"
         >
-          Add activity
+          {submitLabel}
         </button>
       </div>
     </form>

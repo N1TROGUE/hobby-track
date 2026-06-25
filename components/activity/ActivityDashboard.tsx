@@ -9,6 +9,7 @@ import { categoryDetails } from "@/lib/categories/categoryData";
 import {
   createActivityRequest,
   deleteActivityRequest,
+  updateActivityRequest,
 } from "@/lib/api/activityClient";
 
 type ActivityFilter = "All" | ActivityCategory;
@@ -66,6 +67,30 @@ export function ActivityDashboard({
     }
   }
 
+  async function handleUpdateActivity(
+    activityId: string,
+    formValues: ActivityFormValues,
+  ) {
+    const updatedActivity: Activity = {
+      id: activityId,
+      ...formValues,
+    };
+
+    try {
+      const savedActivity = await updateActivityRequest(updatedActivity);
+
+      setActivityItems((currentItems) =>
+        currentItems.map((activity) =>
+          activity.id === activityId ? savedActivity : activity,
+        ),
+      );
+      setSelectedActivity(savedActivity);
+      setErrorMessage(null);
+    } catch {
+      setErrorMessage("Could not update activity.");
+    }
+  }
+
   return (
     <>
       <ActivityOverview activities={activityItems} categories={categories} />
@@ -119,7 +144,10 @@ export function ActivityDashboard({
           </div>
 
           {isFormOpen && (
-            <ActivityForm categories={categories} onSubmit={handleAddActivity} />
+            <ActivityForm
+              categories={categories}
+              onSubmit={handleAddActivity}
+            />
           )}
 
           {errorMessage && (
@@ -165,8 +193,12 @@ export function ActivityDashboard({
         {selectedActivity && (
           <ActivityDetailModal
             activity={selectedActivity}
+            categories={categories}
             onClose={() => setSelectedActivity(null)}
             onDelete={() => handleDeleteActivity(selectedActivity.id)}
+            onUpdate={(values) =>
+              handleUpdateActivity(selectedActivity.id, values)
+            }
           />
         )}
       </section>

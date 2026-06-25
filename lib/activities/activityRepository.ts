@@ -54,6 +54,28 @@ export function createActivity(activity: Activity): Activity {
   return activity;
 }
 
+export function updateActivity(activity: Activity): Activity | null {
+  const result = database
+    .prepare(
+      `
+      UPDATE activities
+      SET title = @title,
+          category = @category,
+          date = @date,
+          time = @time,
+          note = @note
+      WHERE id = @id
+      `,
+    )
+    .run(activity);
+
+  if (result.changes === 0) {
+    return null;
+  }
+
+  return activity;
+}
+
 export function deleteActivity(activityId: string): boolean {
   const result = database
     .prepare("DELETE FROM activities WHERE id = ?")

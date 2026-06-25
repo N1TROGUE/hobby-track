@@ -1,19 +1,27 @@
 "use client";
 
-import type { Activity } from "@/types/activity";
+import { useState } from "react";
+import type { Activity, ActivityCategory } from "@/types/activity";
 import { categoryDetails } from "@/lib/categories/categoryData";
+import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 
 type ActivityDetailModalProps = {
   activity: Activity;
+  categories: ActivityCategory[];
   onClose: () => void;
   onDelete: () => void;
+  onUpdate: (values: ActivityFormValues) => void;
 };
 
 export function ActivityDetailModal({
   activity,
+  categories,
   onClose,
   onDelete,
+  onUpdate,
 }: Readonly<ActivityDetailModalProps>) {
+  const [isEditing, setIsEditing] = useState(false);
+  
   return (
     <div className="fixed inset-0 z-20 flex items-end bg-black/60 px-5 py-6 backdrop-blur-sm sm:items-center sm:justify-center">
       <section
@@ -50,25 +58,50 @@ export function ActivityDetailModal({
           </button>
         </div>
 
-        <dl className="mt-6 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-app-border bg-app-background p-4">
-            <dt className="text-sm font-medium text-app-muted">Date</dt>
-            <dd className="mt-1 font-semibold">{activity.date}</dd>
-          </div>
-          <div className="rounded-2xl border border-app-border bg-app-background p-4">
-            <dt className="text-sm font-medium text-app-muted">Time</dt>
-            <dd className="mt-1 font-semibold">{activity.time}</dd>
-          </div>
-        </dl>
+        {isEditing ? (
+          <ActivityForm
+            categories={categories}
+            initialValues={{
+              title: activity.title,
+              date: activity.date,
+              time: activity.time,
+              category: activity.category,
+              note: activity.note,
+            }}
+            onSubmit={onUpdate}
+            submitLabel="Save changes"
+          />
+        ) : (
+          <>
+            <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border border-app-border bg-app-background p-4">
+                <dt className="text-sm font-medium text-app-muted">Date</dt>
+                <dd className="mt-1 font-semibold">{activity.date}</dd>
+              </div>
+              <div className="rounded-2xl border border-app-border bg-app-background p-4">
+                <dt className="text-sm font-medium text-app-muted">Time</dt>
+                <dd className="mt-1 font-semibold">{activity.time}</dd>
+              </div>
+            </dl>
 
-        <div className="mt-4 rounded-2xl border border-app-border bg-app-background p-4">
-          <p className="text-sm font-medium text-app-muted">Notes</p>
-          <p className="mt-2 leading-6 text-app-text">
-            {activity.note || "No notes added."}
-          </p>
-        </div>
+            <div className="mt-4 rounded-2xl border border-app-border bg-app-background p-4">
+              <p className="text-sm font-medium text-app-muted">Notes</p>
+              <p className="mt-2 leading-6 text-app-text">
+                {activity.note || "No notes added."}
+              </p>
+            </div>
+          </>
+        )}
 
-        <div className="mt-5 flex justify-end">
+        <div className="mt-5 flex flex-wrap justify-end gap-3">
+          <button
+            className="rounded-full bg-app-primary px-4 py-2 text-sm font-semibold text-app-background transition hover:bg-app-primary-hover"
+            onClick={() => setIsEditing((currentValue) => !currentValue)}
+            type="button"
+          >
+            {isEditing ? "Cancel edit" : "Edit activity"}
+          </button>
+
           <button
             className="rounded-full border border-category-friends bg-transparent px-4 py-2 text-sm font-semibold text-category-friends transition hover:bg-category-friends hover:text-app-text"
             onClick={onDelete}

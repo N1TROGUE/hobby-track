@@ -36,6 +36,22 @@ export async function createActivityRequest(
   return response.json() as Promise<Activity>;
 }
 
+export async function updateActivityRequest(
+  activity: Activity,
+): Promise<Activity> {
+  const response = await fetch(`${activitiesEndpoint}/${activity.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(activity),
+  });
+
+  await assertSuccessfulResponse(response);
+
+  return response.json() as Promise<Activity>;
+}
+
 export async function deleteActivityRequest(activityId: string) {
   const response = await fetch(`${activitiesEndpoint}/${activityId}`, {
     method: "DELETE",
