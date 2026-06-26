@@ -13,27 +13,7 @@ export default function Home() {
             HobbyTrack
           </a>
 
-          <nav aria-label="Main navigation" className="hidden items-center gap-2 md:flex">
-            <a
-              className="rounded-full px-4 py-2 text-sm font-medium text-app-muted transition hover:bg-category-reading-soft hover:text-app-text"
-              href="#agenda"
-            >
-              Agenda
-            </a>
-            <a
-              className="rounded-full px-4 py-2 text-sm font-medium text-app-muted transition hover:bg-category-reading-soft hover:text-app-text"
-              href="#categories"
-            >
-              Categories
-            </a>
-          </nav>
-
-          <a
-            className="rounded-full bg-app-primary px-4 py-2 text-sm font-semibold text-app-background shadow-sm transition hover:bg-app-primary-hover"
-            href="#add-activity"
-          >
-            Add activity
-          </a>
+          <nav aria-label="Main navigation" className="hidden items-center gap-2 md:flex"></nav>
         </header>
         <ActivityDashboard activities={activities} categories={categories} />
       </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ActivityForm, ActivityFormValues } from "./ActivityForm";
 import { ActivityDetailModal } from "./ActivityDetailModal";
 import { ActivityOverview } from "./ActivityOverview";
+import { ActivityCalendar } from "./ActivityCalendar";
 import type { Activity, ActivityCategory } from "@/types/activity";
 import { categoryDetails } from "@/lib/categories/categoryData";
 import {
@@ -19,6 +20,8 @@ type ActivityDashboardProps = {
   categories: ActivityCategory[];
 };
 
+type ActivityView = "agenda" | "calendar";
+
 export function ActivityDashboard({
   activities,
   categories,
@@ -29,6 +32,7 @@ export function ActivityDashboard({
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedView, setSelectedView] = useState<ActivityView>("agenda");
 
   const visibleActivities =
     selectedCategory === "All"
@@ -95,7 +99,12 @@ export function ActivityDashboard({
     <>
       <ActivityOverview activities={activityItems} categories={categories} />
 
-      <section className="grid gap-6 pb-10 lg:grid-cols-3" id="agenda">
+      <section
+        className={`grid gap-6 pb-10 ${
+          selectedView === "calendar" ? "lg:grid-cols-1" : "lg:grid-cols-3"
+        }`}
+        id="agenda"
+      >
         <aside
           className="rounded-3xl border border-app-glass-border bg-app-surface-glass-soft p-5 shadow-sm backdrop-blur"
           id="categories"
@@ -133,14 +142,33 @@ export function ActivityDashboard({
                 Your next plans
               </h2>
             </div>
-            <button
-              className="h-11 rounded-full border border-app-primary bg-app-primary px-5 text-sm font-semibold text-app-background shadow-sm transition hover:bg-app-primary-hover"
-              id="add-activity"
-              onClick={() => setIsFormOpen((currentValue) => !currentValue)}
-              type="button"
-            >
-              {isFormOpen ? "Close form" : "New activity"}
-            </button>
+            <div className="flex flex-wrap gap-3 sm:justify-end">
+              <div className="flex rounded-full border border-app-border bg-app-surface p-1">
+                {(["agenda", "calendar"] as ActivityView[]).map((view) => (
+                  <button
+                    className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition ${
+                      selectedView === view
+                        ? "bg-app-primary text-app-background"
+                        : "text-app-muted hover:text-app-text"
+                    }`}
+                    key={view}
+                    onClick={() => setSelectedView(view)}
+                    type="button"
+                  >
+                    {view}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="h-11 rounded-full border border-app-primary bg-app-primary px-5 text-sm font-semibold text-app-background shadow-sm transition hover:bg-app-primary-hover"
+                id="add-activity"
+                onClick={() => setIsFormOpen((currentValue) => !currentValue)}
+                type="button"
+              >
+                {isFormOpen ? "Close form" : "New activity"}
+              </button>
+            </div>
           </div>
 
           {isFormOpen && (
@@ -156,38 +184,45 @@ export function ActivityDashboard({
             </p>
           )}
 
-          <div className="mt-5 grid gap-3">
-            {visibleActivities.map((activity) => (
-              <button
-                className="rounded-3xl border border-app-border bg-app-surface p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                key={activity.id}
-                onClick={() => setSelectedActivity(activity)}
-                type="button"
-              >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`h-3 w-3 rounded-full ${categoryDetails[activity.category].accentClass}`}
-                      />
-                      <p className="text-sm font-semibold text-app-muted">
-                        {activity.category}
+          {selectedView === "agenda" ? (
+            <div className="mt-5 grid gap-3">
+              {visibleActivities.map((activity) => (
+                <button
+                  className="rounded-3xl border border-app-border bg-app-surface p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                  key={activity.id}
+                  onClick={() => setSelectedActivity(activity)}
+                  type="button"
+                >
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`h-3 w-3 rounded-full ${categoryDetails[activity.category].accentClass}`}
+                        />
+                        <p className="text-sm font-semibold text-app-muted">
+                          {activity.category}
+                        </p>
+                      </div>
+                      <h3 className="mt-3 text-xl font-semibold tracking-tight">
+                        {activity.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-app-muted">
+                        {activity.note}
                       </p>
                     </div>
-                    <h3 className="mt-3 text-xl font-semibold tracking-tight">
-                      {activity.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-app-muted">
-                      {activity.note}
+                    <p className="rounded-full bg-app-surface-soft px-4 py-2 text-sm font-semibold text-app-muted">
+                      {activity.date} · {activity.time}
                     </p>
                   </div>
-                  <p className="rounded-full bg-app-surface-soft px-4 py-2 text-sm font-semibold text-app-muted">
-                    {activity.date} · {activity.time}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <ActivityCalendar
+              activities={visibleActivities}
+              onSelectActivity={setSelectedActivity}
+            />
+          )}
         </section>
 
         {selectedActivity && (
