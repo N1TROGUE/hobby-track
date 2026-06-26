@@ -100,8 +100,8 @@ export function ActivityDashboard({
       <ActivityOverview activities={activityItems} categories={categories} />
 
       <section
-        className={`grid gap-6 pb-10 ${
-          selectedView === "calendar" ? "lg:grid-cols-1" : "lg:grid-cols-3"
+        className={`grid pb-10 ${
+          selectedView === "calendar" ? "gap-y-6 lg:grid-cols-1" : "gap-x-6 lg:grid-cols-3"
         }`}
         id="agenda"
       >
