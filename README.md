@@ -122,6 +122,20 @@ hobby-track/
 
 The activity overview, summary, agenda list, calendar, form, and detail modal are split into activity-specific components under `components/activity/`.
 
+## Technical Choices
+
+Next.js API routes with SQLite persistence were chosen to demonstrate a small fullstack flow without adding external infrastructure. SQLite keeps the project easy to run locally while still showing real create, read, update, and delete behavior through an API and repository layer.
+
+UI state is kept in `ActivityDashboard` because the overview, agenda view, calendar view, filters, and modal all need to stay in sync after add, edit, and delete actions.
+
+A custom React calendar component is used instead of a calendar library because the assignment only needs a simple week overview, and a small custom component keeps the implementation easier to understand.
+
+## Scope
+
+The focus of this version is the required assignment flow: viewing, filtering, adding, editing, and deleting hobby activities.
+
+The calendar view is intentionally kept simple and weekly instead of becoming a full scheduling system with recurring activities, reminders, or drag-and-drop planning. Those would be natural next steps, but they are outside the core scope.
+
 ## Validation Checklist
 
 Before submitting or deploying, run:
