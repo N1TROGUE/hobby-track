@@ -83,17 +83,35 @@ data/*.db-*
 ## Project Structure
 
 ```txt
-app/
-  api/activities/          API routes for activity CRUD operations
-  page.tsx                 Server-rendered page entry
-components/activity/       Activity UI components
-lib/
-  activities/              Activity seed data and repository
-  api/                     Frontend API client
-  categories/              Category metadata
-  db.ts                    SQLite connection and schema setup
-types/                     Shared TypeScript domain types
-data/                      Local SQLite database files
+hobby-track/
+├─ app/
+│  ├─ api/
+│  │  └─ activities/
+│  │     ├─ route.ts
+│  │     └─ [id]/
+│  │        └─ route.ts
+│  └─ page.tsx
+├─ components/
+│  └─ activity/
+│     ├─ ActivityCalendar.tsx
+│     ├─ ActivityDashboard.tsx
+│     ├─ ActivityDetailModal.tsx
+│     ├─ ActivityForm.tsx
+│     ├─ ActivityOverview.tsx
+│     └─ ActivitySummary.tsx
+├─ lib/
+│  ├─ activities/
+│  │  ├─ activityData.ts
+│  │  └─ activityRepository.ts
+│  ├─ api/
+│  │  └─ activityClient.ts
+│  ├─ categories/
+│  │  └─ categoryData.ts
+│  └─ db.ts
+├─ types/
+│  └─ activity.ts
+└─ data/
+   └─ hobbytrack.db
 ```
 
 ## Architecture Notes
