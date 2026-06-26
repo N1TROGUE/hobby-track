@@ -5,7 +5,7 @@ HobbyTrack is a hobby agenda built with Next.js, TypeScript, Tailwind CSS, and S
 ## Features
 
 - View planned activities in an agenda/list view.
-- Switch to a calendar view for a weekly overview.
+- Switch between an agenda/list view and a weekly calendar view.
 - Filter activities by hobby category.
 - Add new activities with form validation.
 - Open activity details in a modal.
@@ -111,7 +111,7 @@ hobby-track/
 ├─ types/
 │  └─ activity.ts
 └─ data/
-   └─ hobbytrack.db
+   └─ hobbytrack.db        Created locally, ignored by Git
 ```
 
 ## Architecture Notes
